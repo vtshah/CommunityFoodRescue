@@ -1,0 +1,45 @@
+from django.db import models
+from django.utils.encoding import smart_unicode
+from phonenumber_field.modelfields import PhoneNumberField
+
+# Create your models here.
+
+class SignUp(models.Model):
+    donor = models.BooleanField(default=True)
+    recipient = models.BooleanField(default=True)
+    first_name = models.CharField(max_length=120, null=True, blank=True)
+    last_name = models.CharField(max_length=120, null=True, blank=True)
+    password = models.CharField(_('password'), max_length=128, help_text=_("Use '[algo]$[salt]$[hexdigest]' or use the <a href=\"password/\">change password form</a>."))
+    email = models.EmailField()
+    phone_number = PhoneNumberField()
+    establishment_name = models.CharField(max_length=200, null=True, blank=True)
+    establishment_address = models.CharField(max_length=500, null=True, blank=True)
+    refrigeration = models.FloatField()
+    freezer = models.FloatField()
+    dry_storage = models.FloatField()
+    loading_docks = models.IntegerField()
+    dock_levelers = models.IntegerField()
+    scales = models.IntegerField()
+    pallet_jacks = models.IntegerField()
+    fork_lifts = models.IntegerField()
+    refrigerated_trucks = models.IntegerField()
+    box_trucks = models.IntegerField()
+    vans = models.IntegerField()
+    truck_accessible = models.BooleanField(default=True)
+    number_of_onsite_parking_spaces = models.IntegerField()
+    hours_of_operations = models.DateTimeField()
+    number_of_current_volunteers = models.IntegerField()
+    number_of_current_staff_devoted_to_recieving_or_distributing_food = models.IntegerField()
+    number_of_current_recipients_per_week = models.IntegerField()
+    timestamp = models.DateTimeField(auto_now_add=True, auto_now=False)
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    
+    def __unicode__(self):
+        return smart_unicode(self.email)
+    
+    def set_password(self, raw_password):
+        import random
+        algo = 'sha1'
+        salt = get_hexdigest(algo, str(random.random()), str(random.random()))[:5]
+        hsh = get_hexdigest(algo, salt, raw_password)
+        self.password = '%s$%s$%s' % (algo, salt, hsh)

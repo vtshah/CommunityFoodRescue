@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block jumbotron %}
+
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Community Food Rescue</h1>
+        <p>Because food is a terrible thing to waste</p>
+        <p><a href="http://communityfoodrescue.org/" class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
+        <p><a href='{% url "signup" %}' class="btn btn-success btn-lg" role="button">Join Now &raquo;</a></p>
+      </div>
+    </div>
+    
+    {% endblock %}

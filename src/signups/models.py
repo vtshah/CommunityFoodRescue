@@ -1,10 +1,14 @@
 from django.db import models
-from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.utils.encoding import smart_unicode
 from phonenumber_field.modelfields import PhoneNumberField
 import datetime
+from django.contrib.gis.db import models
+from django.forms import ModelForm, EmailField, CharField
+from django.contrib.auth.forms import UserCreationForm
+
+
 
 # Create your models here.
 
@@ -41,7 +45,7 @@ class SignUp(models.Model):
     updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     
     def __unicode__(self):
-        return smart_unicode(self.email)
+        return smart_unicode(self.first_name)
     
 class MakeADonation(models.Model):
     food_description = models.CharField(max_length=500, null=False, blank=False)
@@ -61,4 +65,13 @@ class MakeADonation(models.Model):
         return smart_unicode(self.food_description)
     
     
+class AccountCreationForm(UserCreationForm):
+    
+    username = CharField(label=(u'User Name'))
+    email = EmailField(label=(u'Email'))
+    
+    phone_number = PhoneNumberField()
 
+    class Meta:
+        model = User
+        fields = ['email', 'username', 'first_name', 'last_name']

@@ -3,12 +3,36 @@
 
 
 {% block content %}
-        <div class="col-md-12">
+<!--        <div class="col-md-12">
                      <h1>Join Now</h1>
             <form method='POST', action=''> {% csrf_token %}
                 {{ form.as_p }}
                 <input type='submit', class='btn btn-success btn-lg btn-block'>
             </form>
+        </div>-->
+        <div class="col-md-12">
+        <form method="post" role="form"> {% csrf_token %}
+            {% for field in form.visible_fields %}
+            <div id="div_{{ field.html_name }}" 
+                 class="form-group{% if field.errors %} has-error{% endif %}">
+                {{ field.label_tag }}
+                {{ field }}
+                <div class="text-muted pull-right">
+                    <small>{{ field.help_text }}</small>
+                </div>
+                <div class="help-block">
+                    {{ field.errors }}
+                </div>
+            </div>
+            {% endfor %}
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
         </div>
 
    
